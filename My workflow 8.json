@@ -1,0 +1,129 @@
+{
+  "name": "My workflow 7",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Please provide me  cilent information ",
+        "options": {
+          "systemMessage": "=You are a lead genartion expert.so you can help  every information you know.user send you message and you respons message  and data entry work b2b  lead genaration. People message you and replay {{ $json.chatInput }}.\n1.company name\n2. company website\n3.ceo name\n4.company url\n5.ceo linkdin id\n6.company Email\n7.company location on google map link\n8.company co founder\nyou can provide thank you"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -368,
+        -640
+      ],
+      "id": "8bef3a8e-07aa-4754-95e1-1ac824fb0758",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -592,
+        -352
+      ],
+      "id": "b8c13c49-ed5f-4b12-abfd-41e461185a03",
+      "name": "When chat message received",
+      "webhookId": "dc339596-a1eb-4135-a08c-04c047926658"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -400
+      ],
+      "id": "fbd95178-638a-451b-af37-352bfc5bd1c5",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": " ",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "info123@gmail.com",
+        "subject": "AI Agent Response",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -48,
+        -752
+      ],
+      "id": "06cf0a28-a083-4ba2-bbe1-a3eb2254abed",
+      "name": "Send a message",
+      "webhookId": "b7766cb1-4719-4061-b8ba-cc1099749938",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "SFiKbUcognEqYdPk",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "4b0c3053-ffb9-4f7d-be29-6aa322db7eda",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cc0a1906f46cecb33d05e98ee27acd62e635d0596a534915d66320109bab8ec1"
+  },
+  "nodeGroups": [],
+  "id": "XYUUzpJIn09kpYm6",
+  "tags": []
+}
